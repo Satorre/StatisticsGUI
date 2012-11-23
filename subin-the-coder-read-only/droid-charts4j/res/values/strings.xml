@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, Charts4jActivity!</string>
+    <string name="app_name">droid-charts4j</string>
+    <string name="export">Export this Statistic</string>
+    <string name="new_stat">Generate a New Statistic</string>
+    <string name="stat_number">100 %</string>
+    <string name="stat_number_title">Percentage of success in SDP course</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_one_number">OneNumberActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="prefix_select">Choose a prefix :</string>
+    <string name="category_item">Subject :</string>
+    <string name="value_category_item">Value :</string>
+    <string name="stat">Stat :</string>
+    <string name="option">Option :</string>
+    <string name="linear">Linear</string>
+    <string name="radar">Radar</string>
+    <string name="pie">Pie</string>
+    <string name="bar">Bar </string>
+    <string name="scatter">Scatter</string>
+    <string name="number">Number</string>
+
+    <string-array name="empty">
+        <item>""</item>
+    </string-array>
+    <string-array name="prefix_choice">
+        <item>&lt;Select&gt;</item>
+        <item>Number</item>
+        <item>Which</item>
+        <item>Distribution</item>
+    </string-array>
+    <string-array name="number_prefix">
+        <item>&lt;Select&gt;</item>
+        <item>Course</item>
+        <item>Section</item>
+        <item>Professor</item>
+        <item>Document</item>
+        <item>Self</item>
+    </string-array>
+    <string-array name="which_prefix">
+        <item>&lt;Select&gt;</item>
+        <item>Course</item>
+        <item>Professor</item>
+        <item>Document</item>
+    </string-array>
+    <string-array name="distribution_prefix">
+        <item>&lt;Select&gt;</item>
+        <item>by section</item>
+        <item>by students</item>
+        <item>by documents</item>
+        <item>by grades</item>
+        <item>by rate</item>
+    </string-array>
+    <string-array name="number_course">
+        <item>&lt;Select&gt;</item>
+        <item>(over the years)</item>
+        <item>is hot!</item>
+        <item>success (over the years)</item>
+        <item>success</item>
+        <item>general rate</item>
+        <item>grade obtained over rate given</item>
+        <item>grade obtained in course A over grade obtained
+					in course B</item>
+    </string-array>
+    <string-array name="number_section">
+        <item>&lt;Select&gt;</item>
+        <item>numbers of students</item>
+        <item>success</item>
+    </string-array>
+    <string-array name="number_professor">
+        <item>&lt;Select&gt;</item>
+        <item>mark given</item>
+        <item>rate</item>
+        <item>list of courses</item>
+        <item>years of teaching</item>
+        <item>success rate for his courses</item>
+    </string-array>
+    <string-array name="list_course">
+        <item>&lt;Select&gt;</item>
+        <item>Sweng</item>
+        <item>Sdp</item>
+        <item>TCP/IP Networking</item>
+        <item>Distributed Algorithm</item>
+        <item>Introduction to Database</item>
+    </string-array>
+
+</resources>
