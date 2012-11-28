@@ -87,4 +87,6 @@
         <item>Introduction to Database</item>
     </string-array>
 
+    <string name="title_activity_statistics2">Statistics2</string>
+
 </resources>
