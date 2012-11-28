@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 public class Statistics2 extends Activity {
 
@@ -35,6 +37,23 @@ public class Statistics2 extends Activity {
         
     }
 
+    public class SpinnerListener implements OnItemSelectedListener {
+
+		@Override
+		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+    	
+    }
+    
     public void initSpinner(Spinner spinner, int layout) {
     	Resources res = getResources();
     	String[] array = res.getStringArray(layout);
@@ -43,6 +62,8 @@ public class Statistics2 extends Activity {
     	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     	spinner.setAdapter(adapter);
     	adapter.notifyDataSetChanged();
+    	
+    	spinner.setOnItemSelectedListener(new SpinnerListener());
     }
     
     @Override
