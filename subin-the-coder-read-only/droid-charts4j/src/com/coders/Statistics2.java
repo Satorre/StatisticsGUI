@@ -1,6 +1,7 @@
 package com.coders;
 
 import java.util.ArrayList;
+import immutableTree.ImmutableTree;
 import java.util.Arrays;
 
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 public class Statistics2 extends Activity {
 
+	ImmutableTree root = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +36,8 @@ public class Statistics2 extends Activity {
         textView.setText("prefix");
 		
         mainView.addView(v);
-        
+        root = ImmutableTree.readFromFile("tree.ser");
+        root.print(0);
     }
 
     public class SpinnerListener implements OnItemSelectedListener {
@@ -48,8 +51,6 @@ public class Statistics2 extends Activity {
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
-			// TODO Auto-generated method stub
-			
 		}
     	
     }
