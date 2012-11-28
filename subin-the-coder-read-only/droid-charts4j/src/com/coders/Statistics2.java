@@ -28,21 +28,23 @@ public class Statistics2 extends Activity {
         
         TextView textView = (TextView) v.findViewById(R.id.choice);
         Spinner spinner = (Spinner) v.findViewById(R.id.choice_spinner);
-        
+        initSpinner(spinner, R.array.prefix_choice);
         textView.setText("prefix");
-        
-        Resources res = getResources();
-		String[] array = res.getStringArray(R.array.prefix_choice);
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, 
-				new ArrayList<CharSequence> (Arrays.asList(array)));
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 		
         mainView.addView(v);
         
     }
 
+    public void initSpinner(Spinner spinner, int layout) {
+    	Resources res = getResources();
+    	String[] array = res.getStringArray(layout);
+    	ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, 
+    			new ArrayList<CharSequence> (Arrays.asList(array)));
+    	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    	spinner.setAdapter(adapter);
+    	adapter.notifyDataSetChanged();
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_statistics2, menu);
