@@ -4,12 +4,11 @@ import immutableTree.ImmutableTree;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,43 +23,64 @@ import android.widget.AdapterView.OnItemSelectedListener;
 public class Statistics2 extends Activity {
 
 	ImmutableTree root = null;
+	ImmutableTree currentNode = null;
+	List<View> listOfView = new ArrayList<View>();
+	ViewGroup mainView = null;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics2);
-        ViewGroup mainView = (ViewGroup) findViewById(R.id.mainView);
+    
+        mainView = (ViewGroup) findViewById(R.id.mainView);
         
-        LayoutInflater li = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = li.inflate(R.layout.choice, null);
-        
-        TextView textView = (TextView) v.findViewById(R.id.choice);
-        Spinner spinner = (Spinner) v.findViewById(R.id.choice_spinner);
-        initSpinner(spinner, R.array.prefix_choice);
-        textView.setText("prefix");
-		
-        mainView.addView(v);
         try {
 			root = ImmutableTree.readFromFile(this, "tree.ser");
+			currentNode = root;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			Log.v("ImmutableTree", "use ./adb push");
+			Log.v("ImmutableTree", "use ./adb push tree.ser /data/data/com.coders/files/tree.ser");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			Log.v("ImmutableTree", null, e.getCause());
 		}
         if (root != null) {
         	Log.v("ImmutableTRee", "success");
         }
+        LayoutInflater li = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = li.inflate(R.layout.choice, null);
+        
+        TextView textView = (TextView) v.findViewById(R.id.choice);
+        Spinner spinner = (Spinner) v.findViewById(R.id.choice_spinner);
+        initSpinner(currentNode, spinner);
+        textView.setText("prefix");
+		
+        mainView.addView(v);
+        listOfView.add(v);
+        
         root.print(0);
     }
 
     public class SpinnerListener implements OnItemSelectedListener {
 
 		@Override
-		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
-			// TODO Auto-generated method stub
+		public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position,
+				long id) {
 			
+			/**for now, erase all the spinner under position*/
+			for(int i = position + 1; i < listOfView.size(); i++) {
+				mainView.removeViewAt(position + 1);
+				listOfView.remove(position + 1);
+			}
+			
+			/**inflate a new one*/
+			LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	        View v = li.inflate(R.layout.choice, null);
+	        
+	        
+	        
+	        TextView textView = (TextView) v.findViewById(R.id.choice);
+	        Spinner spinner = (Spinner) v.findViewById(R.id.choice_spinner);
+	        initSpinner(currentNode, spinner);
+	        textView.setText("prefix");
 		}
 
 		@Override
@@ -69,11 +89,11 @@ public class Statistics2 extends Activity {
     	
     }
     
-    public void initSpinner(Spinner spinner, int layout) {
-    	Resources res = getResources();
-    	String[] array = res.getStringArray(layout);
-    	ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, 
-    			new ArrayList<CharSequence> (Arrays.asList(array)));
+    public void initSpinner(ImmutableTree node, Spinner spinner) {
+    
+    	List<String> choices = node.getChildrenString();
+    	
+    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, choices);
     	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     	spinner.setAdapter(adapter);
     	adapter.notifyDataSetChanged();
