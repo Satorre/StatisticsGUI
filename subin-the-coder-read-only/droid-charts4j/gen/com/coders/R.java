@@ -36,7 +36,11 @@ public final class R {
         public static final int button5=0x7f090005;
         public static final int button6=0x7f090006;
         public static final int category_item_spinner=0x7f09000a;
-        public static final int menu_settings=0x7f09000e;
+        public static final int choice=0x7f090010;
+        public static final int choice_spinner=0x7f090011;
+        public static final int mainScrollView=0x7f09000e;
+        public static final int mainView=0x7f09000f;
+        public static final int menu_settings=0x7f090012;
         public static final int number_area=0x7f090008;
         public static final int number_title=0x7f090007;
         public static final int option_spinner=0x7f09000d;
@@ -50,11 +54,14 @@ public final class R {
         public static final int activity_main=0x7f030001;
         public static final int activity_one_number=0x7f030002;
         public static final int activity_statistics=0x7f030003;
+        public static final int activity_statistics2=0x7f030004;
+        public static final int choice=0x7f030005;
     }
     public static final class menu {
         public static final int activity_main=0x7f080000;
         public static final int activity_one_number=0x7f080001;
         public static final int activity_statistics=0x7f080002;
+        public static final int activity_statistics2=0x7f080003;
     }
     public static final class string {
         public static final int app_name=0x7f050001;
@@ -77,6 +84,7 @@ public final class R {
         public static final int stat_number_title=0x7f050005;
         public static final int title_activity_main=0x7f050009;
         public static final int title_activity_one_number=0x7f050008;
+        public static final int title_activity_statistics2=0x7f050015;
         public static final int value_category_item=0x7f05000c;
     }
     public static final class style {
