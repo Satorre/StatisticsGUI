@@ -1,13 +1,16 @@
 package com.coders;
 
-import java.util.ArrayList;
 import immutableTree.ImmutableTree;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -36,7 +39,18 @@ public class Statistics2 extends Activity {
         textView.setText("prefix");
 		
         mainView.addView(v);
-        root = ImmutableTree.readFromFile("tree.ser");
+        try {
+			root = ImmutableTree.readFromFile(this, "tree.ser");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			Log.v("ImmutableTree", "use ./adb push");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			Log.v("ImmutableTree", null, e.getCause());
+		}
+        if (root != null) {
+        	Log.v("ImmutableTRee", "success");
+        }
         root.print(0);
     }
 
