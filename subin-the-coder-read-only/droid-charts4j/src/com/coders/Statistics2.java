@@ -1,5 +1,6 @@
 package com.coders;
 
+import immutableTree.ComputeTree;
 import immutableTree.ImmutableTree;
 
 import java.io.IOException;
@@ -34,17 +35,13 @@ public class Statistics2 extends Activity {
     
         mainView = (ViewGroup) findViewById(R.id.mainView);
         
-        try {
-			root = ImmutableTree.readFromFile(this, "tree.ser");
-			currentNode = root;
-		} catch (IOException e) {
-			Log.v("ImmutableTree", "use ./adb push tree.ser /data/data/com.coders/files/tree.ser");
-		} catch (ClassNotFoundException e) {
-			Log.v("ImmutableTree", null, e.getCause());
-		}
-        if (root != null) {
-        	Log.v("ImmutableTRee", "success");
+        root = ImmutableTree.readFromFile(this, "tree2.ser");
+        if (root == null) {
+        	root = ComputeTree.computeTree();
+        	ImmutableTree.writeToFile(this, "tree2.ser", root);
         }
+        currentNode = root;
+        
         LayoutInflater li = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = li.inflate(R.layout.choice, null);
         
@@ -55,8 +52,6 @@ public class Statistics2 extends Activity {
 		
         mainView.addView(v);
         listOfView.add(v);
-        
-        root.print(0);
     }
 
     public class SpinnerListener implements OnItemSelectedListener {
@@ -71,16 +66,21 @@ public class Statistics2 extends Activity {
 				listOfView.remove(position + 1);
 			}
 			
+			//currentNode = currentNode.goUpBy(2);
+			
 			/**inflate a new one*/
 			LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	        View v = li.inflate(R.layout.choice, null);
-	        
 	        
 	        
 	        TextView textView = (TextView) v.findViewById(R.id.choice);
 	        Spinner spinner = (Spinner) v.findViewById(R.id.choice_spinner);
 	        initSpinner(currentNode, spinner);
 	        textView.setText("prefix");
+	        
+	        mainView.addView(v);
+	        onContentChanged();
+	        listOfView.add(v);
 		}
 
 		@Override
