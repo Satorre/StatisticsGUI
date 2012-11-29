@@ -43,7 +43,7 @@ public class Statistics2 extends Activity {
         currentNode = root;
         
         LayoutInflater li = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = li.inflate(R.layout.choice, null);
+        View v = li.inflate(R.layout.choice, mainView, false);
         
         TextView textView = (TextView) v.findViewById(R.id.choice);
         Spinner spinner = (Spinner) v.findViewById(R.id.choice_spinner);
@@ -61,17 +61,17 @@ public class Statistics2 extends Activity {
 				long id) {
 			
 			/**for now, erase all the spinner under position*/
-			for(int i = position + 1; i < listOfView.size(); i++) {
+			/*for(int i = position + 1; i < listOfView.size(); i++) {
 				mainView.removeViewAt(position + 1);
 				listOfView.remove(position + 1);
-			}
+			}*/
 			
+			//move current node
 			//currentNode = currentNode.goUpBy(2);
 			
 			/**inflate a new one*/
 			LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	        View v = li.inflate(R.layout.choice, null);
-	        
+			View v = li.inflate(R.layout.choice, mainView, false);
 	        
 	        TextView textView = (TextView) v.findViewById(R.id.choice);
 	        Spinner spinner = (Spinner) v.findViewById(R.id.choice_spinner);
