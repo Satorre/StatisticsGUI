@@ -27,6 +27,7 @@ public class Statistics2 extends Activity {
 	ImmutableTree currentNode = null;
 	List<View> listOfView = new ArrayList<View>();
 	ViewGroup mainView = null;
+	LayoutInflater li = null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,8 @@ public class Statistics2 extends Activity {
         }
         currentNode = root;
         
-        LayoutInflater li = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = li.inflate(R.layout.choice, mainView, false);
+        li = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = li.inflate(R.layout.choice, null);
         
         TextView textView = (TextView) v.findViewById(R.id.choice);
         Spinner spinner = (Spinner) v.findViewById(R.id.choice_spinner);
@@ -52,6 +53,7 @@ public class Statistics2 extends Activity {
 		
         mainView.addView(v);
         listOfView.add(v);
+        
     }
 
     public class SpinnerListener implements OnItemSelectedListener {
@@ -70,8 +72,8 @@ public class Statistics2 extends Activity {
 			//currentNode = currentNode.goUpBy(2);
 			
 			/**inflate a new one*/
-			LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View v = li.inflate(R.layout.choice, mainView, false);
+			li = li.cloneInContext(Statistics2.this);
+			View v = li.inflate(R.layout.choice, null);
 	        
 	        TextView textView = (TextView) v.findViewById(R.id.choice);
 	        Spinner spinner = (Spinner) v.findViewById(R.id.choice_spinner);
@@ -81,6 +83,7 @@ public class Statistics2 extends Activity {
 	        mainView.addView(v);
 	        onContentChanged();
 	        listOfView.add(v);
+	        onContentChanged();
 		}
 
 		@Override
