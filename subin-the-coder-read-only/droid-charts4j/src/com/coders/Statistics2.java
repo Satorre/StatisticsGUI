@@ -56,12 +56,21 @@ public class Statistics2 extends Activity {
 				long id) {
 			
 			int spinnerPosition = searchSpinnerPositionInScrollView((Spinner) parentView);
+			boolean askStat = false;
 			if (spinnerPosition == lastViewSelected) {
 				/**keep track of which currentNode is wich spinner*/
-				currentNode = currentNode.getChild(position - 1); //because of the --Select-- value
 				if (currentNode.hasChildren()) {
-					addNextSpinner(null, spinnerPosition);
-				} else {
+					currentNode = currentNode.getChild(position - 1); //because of the --Select-- value
+					if (currentNode.hasChildren()) {
+						addNextSpinner(null, spinnerPosition);
+					} else {
+						askStat = true;
+					}
+				}
+				else {
+					askStat = true;
+				}
+				if (askStat) {
 					submitStats();
 				}
 			} else {
@@ -71,7 +80,7 @@ public class Statistics2 extends Activity {
 					mainView.removeViewAt(spinnerPosition + 1);
 					listOfView.remove(spinnerPosition + 1);
 				}
-				lastViewSelected = goUpBy;
+				lastViewSelected = goUpBy -1;
 				if (currentNode.hasChildren()) {
 					currentNode = currentNode.getChild(position - 1);
 					addNextSpinner(null, lastViewSelected);
