@@ -3,14 +3,13 @@ package com.coders;
 import immutableTree.ComputeTree;
 import immutableTree.ImmutableTree;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -18,15 +17,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class Statistics2 extends Activity {
 
+	ViewGroup mainView = null;
 	ImmutableTree root = null;
+	
 	ImmutableTree currentNode = null;
 	List<View> listOfView = new ArrayList<View>();
-	ViewGroup mainView = null;
+	/**include the --Select--*/
+	HashMap<Spinner, Integer> spinnerChoice = new HashMap<Spinner, Integer>();
+	
+	int lastViewSelected = -1;
 	LayoutInflater li = null;
 	
     @Override
@@ -44,16 +47,7 @@ public class Statistics2 extends Activity {
         currentNode = root;
         
         li = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = li.inflate(R.layout.choice, null);
-        
-        TextView textView = (TextView) v.findViewById(R.id.choice);
-        Spinner spinner = (Spinner) v.findViewById(R.id.choice_spinner);
-        initSpinner(currentNode, spinner);
-        textView.setText("prefix");
-		
-        mainView.addView(v);
-        listOfView.add(v);
-        
+        addNextSpinner(null, -1);        
     }
 
     public class SpinnerListener implements OnItemSelectedListener {
@@ -62,28 +56,30 @@ public class Statistics2 extends Activity {
 		public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position,
 				long id) {
 			
-			/**for now, erase all the spinner under position*/
-			/*for(int i = position + 1; i < listOfView.size(); i++) {
-				mainView.removeViewAt(position + 1);
-				listOfView.remove(position + 1);
-			}*/
-			
-			//move current node
-			//currentNode = currentNode.goUpBy(2);
-			
-			/**inflate a new one*/
-			li = li.cloneInContext(Statistics2.this);
-			View v = li.inflate(R.layout.choice, null);
-	        
-	        TextView textView = (TextView) v.findViewById(R.id.choice);
-	        Spinner spinner = (Spinner) v.findViewById(R.id.choice_spinner);
-	        initSpinner(currentNode, spinner);
-	        textView.setText("prefix");
-	        
-	        mainView.addView(v);
-	        onContentChanged();
-	        listOfView.add(v);
-	        onContentChanged();
+			int spinnerPosition = searchSpinnerPositionInScrollView((Spinner) parentView);
+			spinnerChoice.put((Spinner) parentView, position);
+			if (spinnerPosition == lastViewSelected) {
+				/**keep track of which currentNode is wich spinner*/
+				currentNode = currentNode.getChild(position - 1); //because of the --Select-- value
+				spinnerChoice.put((Spinner)selectedItemView, position);
+				if (currentNode.hasChildren()) {
+					addNextSpinner(null, spinnerPosition);
+				} else {
+					//enable submit button
+				}
+			} else {
+				int goUpBy = lastViewSelected - spinnerPosition + 1;
+				currentNode = currentNode.goUpBy(goUpBy);
+				for (int i = spinnerPosition + 1; i < listOfView.size(); i++) {
+					mainView.removeViewAt(spinnerPosition + 1);
+					listOfView.remove(spinnerPosition + 1);
+				}
+				lastViewSelected = goUpBy;
+				if (currentNode.hasChildren()) {
+					currentNode = currentNode.getChild(position - 1);
+					addNextSpinner(null, lastViewSelected);
+				}
+			}
 		}
 
 		@Override
@@ -92,16 +88,51 @@ public class Statistics2 extends Activity {
     	
     }
     
-    public void initSpinner(ImmutableTree node, Spinner spinner) {
+    public int searchSpinnerPositionInScrollView(Spinner spinner) {
+    	int pos = 0;
+    	for(View v : listOfView) {
+    		Spinner spinner2 = (Spinner) v.findViewById(R.id.choice_spinner);
+    		if (spinner2 == spinner) {
+    			return pos;
+    		}
+    		pos++;
+    	}
+    	return -1;
+    }
     
-    	List<String> choices = node.getChildrenString();
+    public void addNextSpinner(View b, int positionSpinnerAbove) {
+    	/**inflate a new one*/
+		View v = li.inflate(R.layout.choice, null);
+        
+        //TextView textView = (TextView) v.findViewById(R.id.choice);
+        Spinner spinner = (Spinner) v.findViewById(R.id.choice_spinner);
+        initSpinner(currentNode, spinner);
+        //textView.setText("prefix");
+        
+        mainView.addView(v);
+        listOfView.add(v);
+        lastViewSelected = positionSpinnerAbove + 1;
+    }
+    
+    public void initSpinner(ImmutableTree node, final Spinner spinner) {
+    
+    	List<String> choices;
+    	choices = node.getChildrenString();
+    	/**I add the select line here because I don't want it to count as 
+    	 * a child
+    	 */
+    	choices.add(0, "--Select--");
     	
     	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, choices);
     	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     	spinner.setAdapter(adapter);
     	adapter.notifyDataSetChanged();
-    	
-    	spinner.setOnItemSelectedListener(new SpinnerListener());
+
+    	spinner.post(new Runnable() {
+    		public void run() {
+    			spinner.setOnItemSelectedListener(new SpinnerListener());
+    		}
+    	});
     }
     
     @Override

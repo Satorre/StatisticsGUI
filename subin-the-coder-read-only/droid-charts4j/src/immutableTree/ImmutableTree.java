@@ -61,6 +61,7 @@ public class ImmutableTree implements Serializable {
 		return children.get(i);
 	}
 	
+	
 	public List<String> getChildrenString() {
 		List<String> strings = new ArrayList<String>();
 		for (ImmutableTree e : children) {
