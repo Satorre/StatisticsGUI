@@ -9,6 +9,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.content.DialogInterface;
 
 public class Statistics2 extends Activity {
 
@@ -26,9 +28,6 @@ public class Statistics2 extends Activity {
 	
 	ImmutableTree currentNode = null;
 	List<View> listOfView = new ArrayList<View>();
-	/**include the --Select--*/
-	HashMap<Spinner, Integer> spinnerChoice = new HashMap<Spinner, Integer>();
-	
 	int lastViewSelected = -1;
 	LayoutInflater li = null;
 	
@@ -57,15 +56,13 @@ public class Statistics2 extends Activity {
 				long id) {
 			
 			int spinnerPosition = searchSpinnerPositionInScrollView((Spinner) parentView);
-			spinnerChoice.put((Spinner) parentView, position);
 			if (spinnerPosition == lastViewSelected) {
 				/**keep track of which currentNode is wich spinner*/
 				currentNode = currentNode.getChild(position - 1); //because of the --Select-- value
-				spinnerChoice.put((Spinner)selectedItemView, position);
 				if (currentNode.hasChildren()) {
 					addNextSpinner(null, spinnerPosition);
 				} else {
-					//enable submit button
+					submitStats();
 				}
 			} else {
 				int goUpBy = lastViewSelected - spinnerPosition + 1;
@@ -112,6 +109,25 @@ public class Statistics2 extends Activity {
         mainView.addView(v);
         listOfView.add(v);
         lastViewSelected = positionSpinnerAbove + 1;
+    }
+    
+    public void submitStats() {
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setTitle("Submit Stats ?");
+    	builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Call here the method that compute the stat
+			}
+    	});
+    	builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();	
+			}
+    	});
+    	AlertDialog alert = builder.create();
+    	alert.show();
     }
     
     public void initSpinner(ImmutableTree node, final Spinner spinner) {
