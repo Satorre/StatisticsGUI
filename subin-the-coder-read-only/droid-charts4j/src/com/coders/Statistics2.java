@@ -64,10 +64,14 @@ public class Statistics2 extends Activity {
 						addNextSpinner(null, spinnerPosition);
 					} else {
 						askStat = true;
+						currentNode = currentNode.goUpBy(1);
+						lastViewSelected--;
 					}
 				}
 				else {
 					askStat = true;
+					currentNode = currentNode.goUpBy(1);
+					lastViewSelected--;
 				}
 				if (askStat) {
 					submitStats();
@@ -85,6 +89,9 @@ public class Statistics2 extends Activity {
 				currentNode = currentNode.getChild(position - 1);
 				if (currentNode.hasChildren()) {
 					addNextSpinner(null, lastViewSelected);
+				} else {
+					currentNode = currentNode.goUpBy(1);
+					lastViewSelected--;
 				}
 			}
 		}
