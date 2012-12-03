@@ -74,7 +74,8 @@ public class Statistics2 extends Activity {
 			} else {
 				int goUpBy = lastViewSelected - spinnerPosition;
 				currentNode = currentNode.goUpBy(goUpBy + 1);
-				for (int i = spinnerPosition + 1; i < listOfView.size(); i++) {
+				int size = listOfView.size();
+				for (int i = spinnerPosition + 1; i < size; i++) {
 					mainView.removeViewAt(spinnerPosition + 1);
 					listOfView.remove(spinnerPosition + 1);
 				}
