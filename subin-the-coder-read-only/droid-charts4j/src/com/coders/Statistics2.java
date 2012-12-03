@@ -4,7 +4,6 @@ import immutableTree.ComputeTree;
 import immutableTree.ImmutableTree;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -74,15 +72,15 @@ public class Statistics2 extends Activity {
 					submitStats();
 				}
 			} else {
-				int goUpBy = lastViewSelected - spinnerPosition + 1;
-				currentNode = currentNode.goUpBy(goUpBy);
+				int goUpBy = lastViewSelected - spinnerPosition;
+				currentNode = currentNode.goUpBy(goUpBy + 1);
 				for (int i = spinnerPosition + 1; i < listOfView.size(); i++) {
 					mainView.removeViewAt(spinnerPosition + 1);
 					listOfView.remove(spinnerPosition + 1);
 				}
-				lastViewSelected = goUpBy -1;
+				lastViewSelected = lastViewSelected - goUpBy;
+				currentNode = currentNode.getChild(position - 1);
 				if (currentNode.hasChildren()) {
-					currentNode = currentNode.getChild(position - 1);
 					addNextSpinner(null, lastViewSelected);
 				}
 			}
@@ -160,9 +158,4 @@ public class Statistics2 extends Activity {
     	});
     }
     
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_statistics2, menu);
-        return true;
-    }
 }
