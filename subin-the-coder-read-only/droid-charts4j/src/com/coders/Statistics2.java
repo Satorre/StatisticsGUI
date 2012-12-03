@@ -26,7 +26,7 @@ public class Statistics2 extends Activity {
 	
 	ImmutableTree currentNode = null;
 	List<View> listOfView = new ArrayList<View>();
-	int lastViewSelected = -1;
+	int lastViewSelected = 0;
 	LayoutInflater li = null;
 	
     @Override
@@ -54,8 +54,15 @@ public class Statistics2 extends Activity {
 				long id) {
 			
 			int spinnerPosition = searchSpinnerPositionInScrollView((Spinner) parentView);
+			int size = listOfView.size();
+			for (int i = spinnerPosition + 1; i < size; i++) {
+				mainView.removeViewAt(spinnerPosition + 1);
+				listOfView.remove(spinnerPosition + 1);
+			}
+			
 			boolean askStat = false;
 			if (spinnerPosition == lastViewSelected) {
+				currentNode = currentNode.goUpBy(1);
 				/**keep track of which currentNode is wich spinner*/
 				/**problem when we re-choose a non-final spinner*/
 				if (currentNode.hasChildren()) {
@@ -64,14 +71,10 @@ public class Statistics2 extends Activity {
 						addNextSpinner(null, spinnerPosition);
 					} else {
 						askStat = true;
-						currentNode = currentNode.goUpBy(1);
-						lastViewSelected--;
 					}
 				}
 				else {
 					askStat = true;
-					currentNode = currentNode.goUpBy(1);
-					lastViewSelected--;
 				}
 				if (askStat) {
 					submitStats();
@@ -80,18 +83,10 @@ public class Statistics2 extends Activity {
 				/**this part should work fine*/
 				int goUpBy = lastViewSelected - spinnerPosition;
 				currentNode = currentNode.goUpBy(goUpBy + 1);
-				int size = listOfView.size();
-				for (int i = spinnerPosition + 1; i < size; i++) {
-					mainView.removeViewAt(spinnerPosition + 1);
-					listOfView.remove(spinnerPosition + 1);
-				}
 				lastViewSelected = lastViewSelected - goUpBy;
 				currentNode = currentNode.getChild(position - 1);
 				if (currentNode.hasChildren()) {
 					addNextSpinner(null, lastViewSelected);
-				} else {
-					currentNode = currentNode.goUpBy(1);
-					lastViewSelected--;
 				}
 			}
 		}
@@ -125,7 +120,6 @@ public class Statistics2 extends Activity {
         
         mainView.addView(v);
         listOfView.add(v);
-        lastViewSelected = positionSpinnerAbove + 1;
     }
     
     public void submitStats() {

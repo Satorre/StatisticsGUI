@@ -78,7 +78,11 @@ public class ImmutableTree implements Serializable {
 	public ImmutableTree goUpBy(int count) {
 		ImmutableTree current = this;
 		while (count > 0) {
-			current = current.getParent();
+			if (current.getParent() != null) {
+				current = current.getParent();
+			} else {
+				return current;
+			}
 			count--;
 		}
 		return current;
