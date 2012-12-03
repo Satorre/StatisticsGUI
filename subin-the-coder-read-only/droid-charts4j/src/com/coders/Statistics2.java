@@ -57,6 +57,7 @@ public class Statistics2 extends Activity {
 			boolean askStat = false;
 			if (spinnerPosition == lastViewSelected) {
 				/**keep track of which currentNode is wich spinner*/
+				/**problem when we re-choose a non-final spinner*/
 				if (currentNode.hasChildren()) {
 					currentNode = currentNode.getChild(position - 1); //because of the --Select-- value
 					if (currentNode.hasChildren()) {
@@ -72,6 +73,7 @@ public class Statistics2 extends Activity {
 					submitStats();
 				}
 			} else {
+				/**this part should work fine*/
 				int goUpBy = lastViewSelected - spinnerPosition;
 				currentNode = currentNode.goUpBy(goUpBy + 1);
 				int size = listOfView.size();
