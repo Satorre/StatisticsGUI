@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.TextView;
 import android.content.DialogInterface;
 
 public class Statistics2 extends Activity {
@@ -37,10 +38,10 @@ public class Statistics2 extends Activity {
     
         mainView = (ViewGroup) findViewById(R.id.mainView);
         
-        root = ImmutableTree.readFromFile(this, "StatsDecisionTree2.ser");
+        root = ImmutableTree.readFromFile(this, "StatsDecisionTree4.ser");
         if (root == null) {
         	root = ComputeTree.computeTree();
-        	ImmutableTree.writeToFile(this, "StatsDecisionTree2.ser", root);
+        	ImmutableTree.writeToFile(this, "StatsDecisionTree4.ser", root);
         }
         currentNode = root;
         
@@ -60,8 +61,7 @@ public class Statistics2 extends Activity {
 				mainView.removeViewAt(spinnerPosition + 1);
 				listOfView.remove(spinnerPosition + 1);
 			}
-
-
+			
 			int goUpBy = 0;
 			if(oldSpinnerPosition > spinnerPosition) {
 				goUpBy = oldSpinnerPosition - spinnerPosition;
@@ -85,7 +85,6 @@ public class Statistics2 extends Activity {
 				hitEnd = 1;
 				submitStats();
 			}
-			
 		}
 
 		@Override
@@ -110,10 +109,10 @@ public class Statistics2 extends Activity {
     	/**inflate a new one*/
 		View v = li.inflate(R.layout.choice, null);
         
-        //TextView textView = (TextView) v.findViewById(R.id.choice);
+        TextView textView = (TextView) v.findViewById(R.id.choice);
         Spinner spinner = (Spinner) v.findViewById(R.id.choice_spinner);
         initSpinner(currentNode, spinner);
-        //textView.setText("prefix");
+        textView.setText(currentNode.getLabel());
         
         mainView.addView(v);
         listOfView.add(v);
@@ -157,6 +156,5 @@ public class Statistics2 extends Activity {
     			spinner.setOnItemSelectedListener(new SpinnerListener());
     		}
     	});
-    }
-    
+    } 
 }

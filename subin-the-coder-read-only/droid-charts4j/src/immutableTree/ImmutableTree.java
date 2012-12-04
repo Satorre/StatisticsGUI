@@ -31,22 +31,41 @@ public class ImmutableTree implements Serializable {
 	
 	private List<ImmutableTree> children;
 	private ImmutableTree parent;
-	private Object o;
-	private int depth;
+	private List<Object> o;
+	private String label;
 	
-	public ImmutableTree(ImmutableTree mParent, Object pO) {
+	
+	public ImmutableTree(ImmutableTree mParent, List<Object> pO) {
 		super();
 		setParent(mParent);
 		setO(pO);
-		depth = 0;
 	}
 
+	public ImmutableTree(ImmutableTree mParent, Object pO) {
+		super();
+		setParent(mParent);
+		List<Object> t = new ArrayList<Object>();
+		t.add(pO);
+		setO(t);
+	}
+	
+	
+	public ImmutableTree(ImmutableTree mParent, List<Object> pO, String pLabel) {
+		this(mParent, pO);
+		setLabel(pLabel);
+	}
+
+	public ImmutableTree(ImmutableTree mParent, Object pO, String pLabel) {
+		this(mParent, pO);
+		setLabel(pLabel);
+	}
+	
+	
 	/**lazy init**/
 	public void addChild(ImmutableTree c) {
 		if (children == null) {
 			children = new ArrayList<ImmutableTree>();
 		}
-		c.setDepth(this.getDepth() + 1);
 		children.add(c);
 	}
 
@@ -69,7 +88,10 @@ public class ImmutableTree implements Serializable {
 		/**copy the children*/
 		List<String> strings = new ArrayList<String>();
 		for (ImmutableTree e : children) {
-			strings.add(e.getO().toString());
+			for (Object obj : e.getO()) {
+				strings.add(obj.toString());
+			}
+			//TODO
 		}
 		
 		return strings;
@@ -104,11 +126,11 @@ public class ImmutableTree implements Serializable {
 		this.parent = mParent;
 	}
 
-	public Object getO() {
+	public List<Object> getO() {
 		return o;
 	}
 
-	private void setO(Object o) {
+	private void setO(List<Object> o) {
 		this.o = o;
 	}
 	
@@ -156,15 +178,13 @@ public class ImmutableTree implements Serializable {
 		
 		return g;
 	}
-	
-	public int getDepth() {
-		return depth;
+
+	public String getLabel() {
+		return label;
 	}
-	
-	private void setDepth(int a) {
-		this.depth = a;
+
+	private void setLabel(String label) {
+		this.label = label;
 	}
-	
-	
 
 }

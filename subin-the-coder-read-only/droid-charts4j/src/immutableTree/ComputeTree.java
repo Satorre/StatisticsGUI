@@ -4,13 +4,13 @@ public class ComputeTree {
 
 	static public ImmutableTree computeTree() {
 		
-		ImmutableTree root = new ImmutableTree(null, "root");
+		ImmutableTree root = new ImmutableTree(null, "root", "Categorie");
 /**depth 0*/
-		ImmutableTree cat_1course = new ImmutableTree(root, "1Course");
-		ImmutableTree cat_2courses = new ImmutableTree(root, "2Courses");
-		ImmutableTree cat_user = new ImmutableTree(root, "User");
-		ImmutableTree cat_section = new ImmutableTree(root, "Section");
-		ImmutableTree cat_teacher = new ImmutableTree(root, "Teacher");
+		ImmutableTree cat_1course = new ImmutableTree(root, "1Course", "Which Course ?");
+		ImmutableTree cat_2courses = new ImmutableTree(root, "2Courses", "Which Course ?");
+		ImmutableTree cat_user = new ImmutableTree(root, "User", "Alone or other");
+		ImmutableTree cat_section = new ImmutableTree(root, "Section", "Which Section ?");
+		ImmutableTree cat_teacher = new ImmutableTree(root, "Teacher", "Which Teacher ?");
 		root.addChild(cat_1course);
 		root.addChild(cat_2courses);
 		root.addChild(cat_user);
@@ -18,13 +18,13 @@ public class ComputeTree {
 		root.addChild(cat_teacher);
 		
 /**depth 1*/	
-		ImmutableTree values1 = new ImmutableTree(cat_1course, "list of courses");
-		ImmutableTree values20 = new ImmutableTree(cat_2courses, "list of courses");
-		ImmutableTree values21 = new ImmutableTree(cat_2courses, "list of courses");
-		ImmutableTree values30 = new ImmutableTree(cat_user, "Alone");
-		ImmutableTree values31 = new ImmutableTree(cat_user, "Compare with others");
-		ImmutableTree values4 = new ImmutableTree(cat_teacher, "list of sections");
-		ImmutableTree values5 = new ImmutableTree(cat_section, "list of teachers");
+		ImmutableTree values1 = new ImmutableTree(cat_1course, /**TODO fetch list courses*/"list of courses", "Choose stat");
+		ImmutableTree values20 = new ImmutableTree(cat_2courses, /**TODO fetch list courses*/"list of courses", "Choose stat");
+		ImmutableTree values21 = new ImmutableTree(cat_2courses, /**TODO fetch list courses*/"list of courses", "Choose stat");
+		ImmutableTree values30 = new ImmutableTree(cat_user, "Alone", "Choose stat");
+		ImmutableTree values31 = new ImmutableTree(cat_user, "Compare with others", "Choose stat");
+		ImmutableTree values4 = new ImmutableTree(cat_teacher, /**TODO fetch list teachers*/"list of sections", "Choose stat");
+		ImmutableTree values5 = new ImmutableTree(cat_section, /**TODO fetch list sections*/"list of teachers", "Choose stat");
 		cat_1course.addChild(values1);
 		/**2 spinners to select 2 courses*/
 		cat_2courses.addChild(values20);
