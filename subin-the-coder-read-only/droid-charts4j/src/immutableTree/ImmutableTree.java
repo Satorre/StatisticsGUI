@@ -128,13 +128,12 @@ public class ImmutableTree implements Serializable {
 	
 	static public void writeToFile(Context a, String fileName, ImmutableTree t) {
 		
-		Object g = ComputeTree.computeTree();
 		OutputStream outstream = null;
 		try {
 			outstream = a.openFileOutput(fileName, Context.MODE_PRIVATE);
 			ObjectOutputStream ois;
 			ois = new ObjectOutputStream(outstream);
-			ois.writeObject(g);
+			ois.writeObject(t);
 		} catch (IOException e) {
 			//never mind
 			//the app will attempt to write the tree the next time

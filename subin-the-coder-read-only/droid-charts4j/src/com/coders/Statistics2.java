@@ -37,10 +37,10 @@ public class Statistics2 extends Activity {
     
         mainView = (ViewGroup) findViewById(R.id.mainView);
         
-        root = ImmutableTree.readFromFile(this, "tree2.ser");
+        root = ImmutableTree.readFromFile(this, "StatsDecisionTree.ser");
         if (root == null) {
         	root = ComputeTree.computeTree();
-        	ImmutableTree.writeToFile(this, "tree2.ser", root);
+        	ImmutableTree.writeToFile(this, "StatsDecisionTree.ser", root);
         }
         currentNode = root;
         
