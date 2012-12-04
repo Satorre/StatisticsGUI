@@ -83,6 +83,7 @@ public class Statistics2 extends Activity {
 			} else {
 				oldSpinnerPosition++;
 				hitEnd = 1;
+				submitStats();
 			}
 			
 		}
