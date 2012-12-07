@@ -31,31 +31,32 @@ public class ImmutableTree implements Serializable {
 	
 	private List<ImmutableTree> children;
 	private ImmutableTree parent;
-	private List<Object> o;
+	private List<String> listChoices;
+	private int choiceMade;
 	private String label;
 	
 	
-	public ImmutableTree(ImmutableTree mParent, List<Object> pO) {
+	public ImmutableTree(ImmutableTree mParent, List<String> pO) {
 		super();
 		setParent(mParent);
 		setO(pO);
 	}
 
-	public ImmutableTree(ImmutableTree mParent, Object pO) {
+	public ImmutableTree(ImmutableTree mParent, String pO) {
 		super();
 		setParent(mParent);
-		List<Object> t = new ArrayList<Object>();
+		List<String> t = new ArrayList<String>();
 		t.add(pO);
 		setO(t);
 	}
+
 	
-	
-	public ImmutableTree(ImmutableTree mParent, List<Object> pO, String pLabel) {
+	public ImmutableTree(ImmutableTree mParent, List<String> pO, String pLabel) {
 		this(mParent, pO);
 		setLabel(pLabel);
 	}
 
-	public ImmutableTree(ImmutableTree mParent, Object pO, String pLabel) {
+	public ImmutableTree(ImmutableTree mParent, String pO, String pLabel) {
 		this(mParent, pO);
 		setLabel(pLabel);
 	}
@@ -80,22 +81,6 @@ public class ImmutableTree implements Serializable {
 		return children.get(i);
 	}
 	
-	
-	public List<String> getChildrenString() {
-		if (children == null) {
-			return null;
-		}
-		/**copy the children*/
-		List<String> strings = new ArrayList<String>();
-		for (ImmutableTree e : children) {
-			for (Object obj : e.getO()) {
-				strings.add(obj.toString());
-			}
-			//TODO
-		}
-		
-		return strings;
-	}
 	
 	public ImmutableTree goUpBy(int count) {
 		ImmutableTree current = this;
@@ -126,12 +111,12 @@ public class ImmutableTree implements Serializable {
 		this.parent = mParent;
 	}
 
-	public List<Object> getO() {
-		return o;
+	public List<String> getO() {
+		return listChoices;
 	}
 
-	private void setO(List<Object> o) {
-		this.o = o;
+	private void setO(List<String> o) {
+		this.listChoices = o;
 	}
 	
 	public void print(int indent) {
@@ -140,7 +125,6 @@ public class ImmutableTree implements Serializable {
 			tab += "   ";
 		}
 		
-		System.out.println(tab + o.toString());
 		if (hasChildren()) {
 			for (ImmutableTree t : children) {
 				t.print(indent + 1);
@@ -187,4 +171,11 @@ public class ImmutableTree implements Serializable {
 		this.label = label;
 	}
 
+	public List<String> getListChoices() {
+		return new ArrayList<String>(listChoices);
+	}
+
+	public void setListChoices(List<String> listChoices) {
+		this.listChoices = listChoices;
+	}
 }

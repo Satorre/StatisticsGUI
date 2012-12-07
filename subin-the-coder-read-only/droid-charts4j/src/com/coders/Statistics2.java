@@ -26,6 +26,7 @@ public class Statistics2 extends Activity {
 	ImmutableTree root = null;
 	
 	ImmutableTree currentNode = null;
+	ImmutableTree leafNode = null;
 	List<View> listOfView = new ArrayList<View>();
 	int oldSpinnerPosition = 0;
 	int hitEnd = 0;
@@ -38,11 +39,11 @@ public class Statistics2 extends Activity {
     
         mainView = (ViewGroup) findViewById(R.id.mainView);
         
-        root = ImmutableTree.readFromFile(this, "StatsDecisionTree4.ser");
-        if (root == null) {
+        //root = ImmutableTree.readFromFile(this, "StatsDecisionTree4.ser");
+        //if (root == null) {
         	root = ComputeTree.computeTree();
-        	ImmutableTree.writeToFile(this, "StatsDecisionTree4.ser", root);
-        }
+        	//ImmutableTree.writeToFile(this, "StatsDecisionTree4.ser", root);
+        //}
         currentNode = root;
         
         li = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -66,22 +67,19 @@ public class Statistics2 extends Activity {
 			if(oldSpinnerPosition > spinnerPosition) {
 				goUpBy = oldSpinnerPosition - spinnerPosition;
 				oldSpinnerPosition = oldSpinnerPosition - goUpBy;
-				goUpBy -= hitEnd*2;
-				currentNode = currentNode.goUpBy(goUpBy + 1);
+				currentNode = currentNode.goUpBy(goUpBy);
 				hitEnd = 0;
 			}
 			
 			if (position == 0) {
 				return;
 			}
-			if (currentNode.getChild(position - 1).hasChildren()) {
+			
+			if (currentNode.hasChildren()) {
 				currentNode = currentNode.getChild(position - 1);
-				if (currentNode.hasChildren()) {
-					addNextSpinner(null, oldSpinnerPosition);
-					oldSpinnerPosition++;
-				}
-			} else {
 				oldSpinnerPosition++;
+				addNextSpinner(null, oldSpinnerPosition);	
+			} else {
 				hitEnd = 1;
 				submitStats();
 			}
@@ -140,7 +138,7 @@ public class Statistics2 extends Activity {
     public void initSpinner(ImmutableTree node, final Spinner spinner) {
     
     	List<String> choices;
-    	choices = node.getChildrenString();
+    	choices = node.getListChoices();
     	/**I add the select line here because I don't want it to count as 
     	 * a child
     	 */

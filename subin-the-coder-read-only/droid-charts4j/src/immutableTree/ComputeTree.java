@@ -1,67 +1,84 @@
 package immutableTree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ComputeTree {
 
 	static public ImmutableTree computeTree() {
 		
-		ImmutableTree root = new ImmutableTree(null, "root", "Categorie");
-/**depth 0*/
-		ImmutableTree cat_1course = new ImmutableTree(root, "1Course", "Which Course ?");
-		ImmutableTree cat_2courses = new ImmutableTree(root, "2Courses", "Which Course ?");
-		ImmutableTree cat_user = new ImmutableTree(root, "User", "Alone or other");
-		ImmutableTree cat_section = new ImmutableTree(root, "Section", "Which Section ?");
-		ImmutableTree cat_teacher = new ImmutableTree(root, "Teacher", "Which Teacher ?");
+		List<String> cat = new ArrayList<String>();
+		cat.add("1Course");
+		cat.add("2Course2");
+		cat.add("User");
+		cat.add("Section");
+		cat.add("Teacher");
+		
+		ImmutableTree root = new ImmutableTree(null, cat, "Categorie ?");
+		
+		List<String> listOfCourse = new ArrayList<String>();
+		listOfCourse.add("list of courses");
+		List<String> listOfSection = new ArrayList<String>();
+		listOfSection.add("list of sections");
+		List<String> listOfTeacher = new ArrayList<String>();
+		listOfTeacher.add("list of teacher");
+		List<String> listOfMode = new ArrayList<String>();
+		listOfMode.add("Alone");
+		listOfMode.add("Average");
+		
+/**depth 1*/
+		ImmutableTree cat_1course = new ImmutableTree(root, listOfCourse, "Course ?");
 		root.addChild(cat_1course);
-		root.addChild(cat_2courses);
-		root.addChild(cat_user);
+		
+		ImmutableTree cat_2courses_1 = new ImmutableTree(root, listOfCourse, "Course ?");
+		root.addChild(cat_2courses_1);
+		
+		ImmutableTree cat_section = new ImmutableTree(root, listOfSection, "Section ?");
 		root.addChild(cat_section);
+		
+		ImmutableTree cat_teacher = new ImmutableTree(root, listOfTeacher, "Teacher ?");
 		root.addChild(cat_teacher);
 		
-/**depth 1*/	
-		ImmutableTree values1 = new ImmutableTree(cat_1course, /**TODO fetch list courses*/"list of courses", "Choose stat");
-		ImmutableTree values20 = new ImmutableTree(cat_2courses, /**TODO fetch list courses*/"list of courses", "Choose stat");
-		ImmutableTree values21 = new ImmutableTree(cat_2courses, /**TODO fetch list courses*/"list of courses", "Choose stat");
-		ImmutableTree values30 = new ImmutableTree(cat_user, "Alone", "Choose stat");
-		ImmutableTree values31 = new ImmutableTree(cat_user, "Compare with others", "Choose stat");
-		ImmutableTree values4 = new ImmutableTree(cat_teacher, /**TODO fetch list teachers*/"list of sections", "Choose stat");
-		ImmutableTree values5 = new ImmutableTree(cat_section, /**TODO fetch list sections*/"list of teachers", "Choose stat");
-		cat_1course.addChild(values1);
-		/**2 spinners to select 2 courses*/
-		cat_2courses.addChild(values20);
-		values20.addChild(values21);
+		ImmutableTree cat_user = new ImmutableTree(root, listOfMode, "Mode ?");
+		root.addChild(cat_user);
 		
-		cat_user.addChild(values30);
-		cat_user.addChild(values31);
-		cat_teacher.addChild(values4);
-		cat_section.addChild(values5);
 		
 /**depth 2*/
-		ImmutableTree c = values1;
-		c.addChild(new ImmutableTree(c, "Distribution of Sections"));
-		c.addChild(new ImmutableTree(c, "SuccessRate"));
-		c.addChild(new ImmutableTree(c, "Mean grades (received)"));
-		c.addChild(new ImmutableTree(c, "Mean rates (given)"));
-		c.addChild(new ImmutableTree(c, "Global rating view"));
+		ImmutableTree cat_2courses_2 = new ImmutableTree(cat_2courses_1, listOfCourse, "Course ?");
+		cat_2courses_1.addChild(cat_2courses_2);
+		List<String> listOf2CoursesStat = new ArrayList<String>();
+		listOf2CoursesStat.add("grade Coursx/grade Coursy");
+		listOf2CoursesStat.add("rating Coursx/grade Coursy");
+		ImmutableTree courses2_stat = new ImmutableTree(cat_2courses_2, listOf2CoursesStat, "Stat ?");
+		cat_2courses_2.addChild(courses2_stat);
 		
-		c = values21;
-		c.addChild(new ImmutableTree(c, "grade course X/grade course Y"));
-		c.addChild(new ImmutableTree(c, "rating course X/rating course Y"));
 		
-		c = values30;
-		c.addChild(new ImmutableTree(c, "Mean of grades obtained"));
-		c = values31;
-		c.addChild(new ImmutableTree(c, "Mean of grades obtained"));
+		List<String> listOfCommonStat = new ArrayList<String>();
+		listOfCommonStat.add("Distribution of Sections");
+		listOfCommonStat.add("SuccessRate");
+		listOfCommonStat.add("Mean grades (received)");
+		listOfCommonStat.add("Mean rates (given)");
+		listOfCommonStat.add("Global rating view");
+		ImmutableTree course1_stat = new ImmutableTree(cat_1course, listOfCommonStat, "Stat ?");
+		cat_1course.addChild(course1_stat);
 		
-		c = values4;
-		c.addChild(new ImmutableTree(c, "Success rate"));
+		List<String> listOfUserStat = new ArrayList<String>();
+		listOfUserStat.add("Mean of Gardes obtained");
+		ImmutableTree user_stat = new ImmutableTree(cat_user, listOfUserStat, "Stat ?");
+		cat_user.addChild(user_stat);
 		
-		c = values5;
-		c.addChild(new ImmutableTree(c, "Distributions of Sections"));
-		c.addChild(new ImmutableTree(c, "Grade/Rating"));
-		c.addChild(new ImmutableTree(c, "SuccessRate"));
-		c.addChild(new ImmutableTree(c, "Mean Grades (given)"));
-		c.addChild(new ImmutableTree(c, "Mean Rates (received)"));
+		List<String> listOfTeacherStat = new ArrayList<String>();
+		listOfTeacherStat.add("Success Rate");
+		listOfTeacherStat.add("Mean Rates");
+		listOfTeacherStat.add("Mean Grades");
+		listOfTeacherStat.add("Grade/Rating");
+		ImmutableTree teacher_stat = new ImmutableTree(cat_teacher, listOfTeacherStat, "Stat ?");
+		cat_teacher.addChild(teacher_stat);
 		
+		List<String> listOfSectionStat = new ArrayList<String>();
+		listOfSectionStat.add("Success Rate");
+		ImmutableTree section_stat = new ImmutableTree(cat_section, listOfSectionStat, "Stat ?");
+		cat_section.addChild(section_stat);
 		
 		return root;
 	}
