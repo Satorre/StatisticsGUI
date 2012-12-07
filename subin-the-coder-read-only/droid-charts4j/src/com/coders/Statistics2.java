@@ -75,8 +75,9 @@ public class Statistics2 extends Activity {
 				return;
 			}
 			
+			String key = ((Spinner) parentView).getItemAtPosition(position).toString();
 			if (currentNode.hasChildren()) {
-				currentNode = currentNode.getChild(position - 1);
+				currentNode = currentNode.getChild(key);
 				oldSpinnerPosition++;
 				addNextSpinner(null, oldSpinnerPosition);	
 			} else {

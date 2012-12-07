@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
@@ -29,35 +30,22 @@ public class ImmutableTree implements Serializable {
 	 */
 	private static final long serialVersionUID = 3998158696450451886L;
 	
-	private List<ImmutableTree> children;
-	private ImmutableTree parent;
+	/**with the hashmap, we can retreive the correct children
+	 * according to the string selected.
+	 */
+	private HashMap<String, ImmutableTree> children;
 	private List<String> listChoices;
-	private int choiceMade;
+	
+	private ImmutableTree parent;
+	/**contains the string selected from the parent's listChoices*/
+	private String choice;
 	private String label;
 	
 	
-	public ImmutableTree(ImmutableTree mParent, List<String> pO) {
-		super();
+	public ImmutableTree(ImmutableTree mParent, String choice, List<String> pO, String pLabel) {
 		setParent(mParent);
-		setO(pO);
-	}
-
-	public ImmutableTree(ImmutableTree mParent, String pO) {
-		super();
-		setParent(mParent);
-		List<String> t = new ArrayList<String>();
-		t.add(pO);
-		setO(t);
-	}
-
-	
-	public ImmutableTree(ImmutableTree mParent, List<String> pO, String pLabel) {
-		this(mParent, pO);
-		setLabel(pLabel);
-	}
-
-	public ImmutableTree(ImmutableTree mParent, String pO, String pLabel) {
-		this(mParent, pO);
+		setChoice(choice);
+		setListChoices(pO);
 		setLabel(pLabel);
 	}
 	
@@ -65,9 +53,17 @@ public class ImmutableTree implements Serializable {
 	/**lazy init**/
 	public void addChild(ImmutableTree c) {
 		if (children == null) {
-			children = new ArrayList<ImmutableTree>();
+			children = new HashMap<String, ImmutableTree>();
 		}
-		children.add(c);
+		children.put(c.choice, c);
+	}
+	
+	/**lazy init**/
+	public void addDefaultChild(ImmutableTree c) {
+		if (children == null) {
+			children = new HashMap<String, ImmutableTree>();
+		}
+		children.put("DEFAULT", c);
 	}
 
 	public void removeChild(ImmutableTree c) {
@@ -77,8 +73,12 @@ public class ImmutableTree implements Serializable {
 		}
 	}
 	
-	public ImmutableTree getChild(int i) {
-		return children.get(i);
+	public ImmutableTree getChild(String key) {
+		if (children.containsKey(key)) {
+			return children.get(key);
+		} else {
+			return children.get("DEFAULT");
+		}
 	}
 	
 	
@@ -109,27 +109,6 @@ public class ImmutableTree implements Serializable {
 
 	private void setParent(ImmutableTree mParent) {
 		this.parent = mParent;
-	}
-
-	public List<String> getO() {
-		return listChoices;
-	}
-
-	private void setO(List<String> o) {
-		this.listChoices = o;
-	}
-	
-	public void print(int indent) {
-		String tab = "";
-		for (int i = 0; i < indent; i++) {
-			tab += "   ";
-		}
-		
-		if (hasChildren()) {
-			for (ImmutableTree t : children) {
-				t.print(indent + 1);
-			}
-		}
 	}
 	
 	static public void writeToFile(Context a, String fileName, ImmutableTree t) {
@@ -178,4 +157,15 @@ public class ImmutableTree implements Serializable {
 	public void setListChoices(List<String> listChoices) {
 		this.listChoices = listChoices;
 	}
+
+
+	public String getChoice() {
+		return choice;
+	}
+
+
+	public void setChoice(String choice) {
+		this.choice = choice;
+	}
+	
 }
